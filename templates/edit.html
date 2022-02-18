@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Edit Information | Website</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .conatainer {
+            height: 100vh;
+            border: 7px solid #3e3939;
+            width: 100vw;
+        }
+
+        .new_nav {
+            border: 7px solid #3e3939;
+            left: 16em;
+            position: absolute;
+            height: 12vh;
+            width: 84vw;
+        }
+
+        .main {
+            float: left;
+            border: 7px solid #3e3939;
+            width: 16em;
+            height: 99vh;
+
+        }
+
+        h3 {
+            margin-top: 2.3em;
+            margin-left: 77px;
+            font-size: 37px;
+        }
+
+        ul {
+            margin-top: 5.4em;
+            margin-left: 2.3em;
+            font-size: 18px;
+            font-family: cursive;
+        }
+
+        a {
+            color: #1071ff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .logo {
+            background: #383535;
+            width: 3vw;
+            margin-top: 22px;
+            height: 6vh;
+            border-radius: 36px;
+            margin-left: 75em;
+        }
+
+        .add {
+            position: absolute;
+            margin-top: 26vh;
+            margin-left: 36vw;
+            min-width: 42vw;
+            min-height: 58vh;
+            background: #f1f1f7;
+            padding: 58px;
+            border: 0;
+            border-radius: 39px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="conatainer">
+
+        <div class="main">
+            <h3>Logo</h3>
+            <ul>
+                <li> <a href="/"> Add Vehicle</a></li>
+                <li> <a href="/vehicle_list">Vehicles List </a></li>
+            </ul>
+        </div>
+
+        <div class="new_nav">
+            <div class="logo"></div>
+        </div>
+
+        <div class="add">
+            <form method="POST" id="new_form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3" style="width: 17vw;float: left;">
+                    <label for="id_speed" class="form-label" >Speed:</label>
+                    <input type="number" name="speed" value="{{ vehicle.speed }}" class="form-control" required="" id="id_speed">
+                </div>
+
+                <div class="mb-3" style="width: 17vw;float: left;margin-left: 18px;">
+                    <label for="id_avg_speed" class="form-label" >Average speed:</label>
+                    <input type="number" name="avg_speed"value="{{ vehicle.avg_speed }}" class="form-control" required="" id="id_avg_speed">
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_engine_status" class="form-label" >Engine status:</label>
+                    <input type="text" name="engine_status" value="{{ vehicle.engine_status }}" class="form-control" maxlength="100" required="" id="id_engine_status">
+
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_fuel_level" class="form-label" >Fuel level:</label>
+                    <input type="text" name="fuel_level" value="{{ vehicle.fuel_level }}" class="form-control" maxlength="100" required="" id="id_fuel_level">
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_temp" class="form-label">Temperature:</label>
+                    <input type="number" name="temp" value="{{ vehicle.temp }}" class="form-control" required="" id="id_temp">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js" 
+    integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+      crossorigin="anonymous"></script>
+
+
+      
+<script type="text/javascript">
+    $(document).on('submit','#new_form',function(e){
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url:'{% url "index" %}',
+            data:
+            {
+                speed:$('#id_speed').val(),
+                avg_speed:$('#id_avg_speed').val(),
+                engine_status:$('#id_engine_status').val(),
+                fuel_level:$('#id_fuel_level').val(),
+                temp:$('#id_temp').val(),
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+            },
+            })
+        console.log("working!")
+        alert("Vehicle Updated!")
+            
+        });
+    </script>
+
+</html>
